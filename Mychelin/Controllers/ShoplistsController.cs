@@ -20,7 +20,7 @@ namespace Mychelin.Controllers
         public enum Status
         {
             行った,
-            行きたい
+            気になる
         }
 
         // 店舗新規登録画面「カテゴリ」の項目リスト
@@ -30,7 +30,8 @@ namespace Mychelin.Controllers
             ディナー,
             スイーツ,
             Bar,
-            おもたせ
+            おもたせ,
+            その他
         }
 
         // 店舗新規登録画面「価格帯」の項目リスト
@@ -38,7 +39,8 @@ namespace Mychelin.Controllers
         {
             安価,
             お手頃,
-            高級
+            高級,
+            不明
         }
         // コンストラクター
         public ShoplistsController(MychelinContext context, IHostEnvironment hostEnvironment)
@@ -82,8 +84,6 @@ namespace Mychelin.Controllers
         }
 
         // POST: Shoplists/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create( Shoplist shoplist)
@@ -125,6 +125,9 @@ namespace Mychelin.Controllers
             {
                 shoplist.ImagePath = "/images/mychelinlist4.jpg";
             }
+
+            // セッションからユーザーIDを取得し、それをshoplist.PersonIdに設定
+            shoplist.PersonId = (int)HttpContext.Session.GetInt32("PersonId");
 
             // コンテキストに登録内容を追加
             _context.Add(shoplist);

@@ -68,7 +68,6 @@ namespace Mychelin.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Coment")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagePath")
@@ -93,7 +92,6 @@ namespace Mychelin.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ShoplistId");
