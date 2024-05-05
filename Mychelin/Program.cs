@@ -14,6 +14,12 @@ namespace Mychelin
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // セッションの追加
+            builder.Services.AddSession();
+
+            // IHttpContextAccessorをサービスとして登録
+            builder.Services.AddHttpContextAccessor();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -34,6 +40,9 @@ namespace Mychelin
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            // セッションの追加
+            app.UseSession();
 
             app.Run();
         }

@@ -1,89 +1,25 @@
 ﻿@model IEnumerable<Mychelin.Models.Shoplist>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "マイページ";
 }
 
-<h1>Index</h1>
+<h1 style="text-align: center;">🌟🌟🌟Mychelinリスト🌟🌟🌟</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ShoplistName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Class)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Star)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Coment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Url)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagePath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.person)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShoplistName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Class)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Star)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Coment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Url)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.person.Mail)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ShoplistId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ShoplistId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ShoplistId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-2">
+            <!-- 画像を表示＆店舗詳細へジャンプ -->
+            <a href="@Url.Action("Details", "Shoplist", new { id = item.ShoplistId})">
+            <img src="@item.ImagePath" alt="Shoplist image" class="img-fluid" />
+
+            <!-- 店名を表示＆店舗詳細へジャンプ -->
+                <a href="@Url.Action("Details", "Shoplist", new { id = item.ShoplistId })">
+            <p>@Html.DisplayFor(modelItem => item.ShoplistName)</p>
+        </div>
+    }
+</div>
