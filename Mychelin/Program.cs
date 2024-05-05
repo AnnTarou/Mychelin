@@ -17,6 +17,9 @@ namespace Mychelin
             // セッションの追加
             builder.Services.AddSession();
 
+            // IHttpContextAccessorをサービスとして登録
+            builder.Services.AddHttpContextAccessor();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
