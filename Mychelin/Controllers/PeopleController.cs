@@ -50,15 +50,15 @@ namespace Mychelin.Controllers
         }
 
         // POST: People/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PersonId,PersonName,Mail,Password")] Person person)
         {
-            // モデルの状態が無効でない場合は追加
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                // パスワードをハッシュ化
+                //person.Password = HashPassword(person.Password);
+
                 _context.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,25 +66,7 @@ namespace Mychelin.Controllers
             return View(person);
         }
 
-        // GET: People/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var person = await _context.Person.FindAsync(id);
-            if (person == null)
-            {
-                return NotFound();
-            }
-            return View(person);
-        }
-
         // POST: People/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PersonId,PersonName,Mail,Password")] Person person)
@@ -98,6 +80,9 @@ namespace Mychelin.Controllers
             {
                 try
                 {
+                    // パスワードをハッシュ化
+                    //person.Password = HashPassword(person.Password);
+
                     _context.Update(person);
                     await _context.SaveChangesAsync();
                 }
@@ -116,6 +101,7 @@ namespace Mychelin.Controllers
             }
             return View(person);
         }
+
 
         // GET: People/Delete/5
         public async Task<IActionResult> Delete(int? id)

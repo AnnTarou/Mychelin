@@ -42,6 +42,10 @@ namespace Mychelin.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("PersonId");
 
                     b.ToTable("Person");
