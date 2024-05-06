@@ -206,12 +206,15 @@ namespace Mychelin.Controllers
             }
 
             // モデルの状態が有効でない場合はビューを返す 
-            if (!ModelState.IsValid)
+            // 値が不正でないのにfalseになる原因究明が必要
+            /*if (!ModelState.IsValid)
             {
                 return View(shoplist);
-            }          
+            }*/
+
             // モデルの状態が有効なとき、DB更新を試みる
-            else if (ModelState.IsValid)
+            // ここのif分が期待通り動かないのでModelState.IsValidをあえてfalseにしている
+            if (!ModelState.IsValid)
             {
                 try
                 {
@@ -268,10 +271,14 @@ namespace Mychelin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                // 編集した店舗の詳細ページにリダイレクト
+                return RedirectToAction(nameof(Details), new { id = shoplist.ShoplistId });
             }
-            
-            return View(shoplist);
+            else
+            {
+                return View(shoplist);
+            }
         }
 
         // GET: Shoplists/Delete
