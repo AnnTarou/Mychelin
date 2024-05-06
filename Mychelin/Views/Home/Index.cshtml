@@ -1,8 +1,46 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Muchelinへようこそ";
+
+    <!--カテゴリーの画像リスト-->
+    var categories = new List<(string Category, string ImagePath, string Controller, string Action)>
+        {
+            ("Lunch", "/images/lunch.jpg","Search", "Lunch"),
+            ("Dinner", "/images/dinner.jpg","Search", "Dinner"),
+            ("Sweet＆Cafe", "/images/sweet.jpg","Search", "Cafe"),
+            ("Bar", "/images/Bar.jpg","Search", "Bar"),
+            ("お気に入り", "/images/favorite.jpg","Search", "Favorite"),
+            ("気になる", "/images/want.jpg","Search", "Want"),
+            ("検索", "/images/serch.jpg","Search", "Find"),
+
+        };
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Muchelinへようこそ</h1>
+    <h3 class="display-5">～Manage Your Favorite Restaurants～</h3>
+    <img src="/images/mychelinhome2.jpg" alt="Mychelin" class="img-fluid" />
+    <p class="lead">Mychelinではあなただけのお気に入りレストランを管理でます</p>
+    <p class="lead">検索も簡単でレストランを思い出す時間は不要です</p>
+    <p class="lead">いますぐMychelinをはじめましょう！！</p>
+</div>
+
+
+<div class="row">
+
+    <!--画像とリンクの生成--->
+        @for (var i = 0; i < categories.Count; i++)
+        {
+            <div class="col-md-3 text-center">
+                <a href="@Url.Action(categories[i].Action, categories[i].Controller)">
+                    <img src="@categories[i].ImagePath" alt="@categories[i].Category image" class="img-fluid" />
+                    <p>@categories[i].Category</p>
+                </a>
+            </div>
+
+            <!--4カテゴリ終わったら次のレコード作成-->
+            if ((i + 1) % 4 == 0 && i < categories.Count - 1)
+            {
+                @:</div><div class="row">
+            }
+        }
 </div>
