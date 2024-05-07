@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+
 using Mychelin.Data;
+using Mychelin.Filter;
 using Mychelin.Models;
 
 namespace Mychelin.Controllers
@@ -19,22 +17,22 @@ namespace Mychelin.Controllers
             _context = context;
         }
 
-        // GET: People
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Person.ToListAsync());
-        }
-
         // GET: People/Details/5
+        // セッションチェックすフィルター適用
+        [SessionCheckFilter]
         public async Task<IActionResult> Details(int? id)
         {
+            // パスにidが含まれないときNotFoundページを表示   
             if (id == null)
             {
                 return NotFound();
             }
 
+            // データベースからGETしたidに一致するものをpersonへ代入
             var person = await _context.Person
                 .FirstOrDefaultAsync(m => m.PersonId == id);
+
+            // personがないときNotFoundページを表示
             if (person == null)
             {
                 return NotFound();
@@ -54,16 +52,29 @@ namespace Mychelin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PersonId,PersonName,Mail,Password")] Person person)
         {
-            if (ModelState.IsValid)
+            // ModelState.IsValidが通常はtrueのときの処理
+            // 現在false(原因不明）となるためこの実装
+            if (!ModelState.IsValid)
             {
                 // パスワードをハッシュ化
                 //person.Password = HashPassword(person.Password);
 
+                // ハッシュ化実装していないためメールアドレスを入力
+                person.Salt = person.Mail;
+
+                // コンテキストに入力されたpersonを登録
                 _context.Add(person);
+
+                // データベースの更新
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // 会員詳細ページへリダイレクト
+                return RedirectToAction("Login", "Account");
             }
-            return View(person);
+            else
+            {
+                return View(person);
+            }            
         }
 
         // POST: People/Edit/5

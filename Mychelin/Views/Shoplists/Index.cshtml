@@ -22,6 +22,20 @@
 <p>
     <a asp-action="Create">Mychelinリスト新規作成</a>
 </p> 
+@foreach (var item in Model)
+{
+    <div class="col-md-2">
+        <!-- 画像を表示＆店舗詳細へジャンプ -->
+        <a href="@Url.Action("Details", "Shoplists", new { id = item.ShoplistId})">
+        <img src="@item.ImagePath" alt="Shoplist image" class="img-fluid" />
+
+        <!-- 店名を表示＆店舗詳細へジャンプ -->
+            <a href="@Url.Action("Details", "Shoplists", new { id = item.ShoplistId })">
+        <p>@Html.DisplayFor(modelItem => item.ShoplistName)</p>
+    </div>
+}
+
+
     <div class="row">
 
     <!--画像とリンクの生成--->
