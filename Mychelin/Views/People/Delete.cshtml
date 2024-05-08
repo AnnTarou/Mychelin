@@ -1,14 +1,12 @@
 ﻿@model Mychelin.Models.Person
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "アカウント削除";
 }
 
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
+<h3 style="text-align: center;">アカウントを削除します</h3>
+<h4 style="text-align: center;">※※アカウントを削除するとデータは復元できません※※</h4>
 <div>
-    <h4>Person</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -33,7 +31,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="PersonId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="アカウント削除" class="btn btn-danger" /> |
+        <a asp-controller="Home" asp-action="Index">ホームに戻る</a>
     </form>
 </div>

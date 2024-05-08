@@ -6,14 +6,14 @@
     <!--カテゴリーの画像リスト-->
      var categories = new List<(string Category, string ImagePath,string Controller,string Action)>
         {
-            ("Lunch", "/images/lunch.jpg","Search", "Lunch"),
-            ("Dinner", "/images/dinner.jpg","Search", "Dinner"),
-            ("Sweet＆Cafe", "/images/sweet.jpg","Search", "Cafe"),
-            ("Bar", "/images/Bar.jpg","Search", "Bar"),
+            ("アカウント", "/images/Account.jpg","People", "Details"),
+            ("検索", "/images/search.jpg","Search", "Find"),
             ("お気に入り", "/images/favorite.jpg","Search", "Favorite"),
             ("気になる", "/images/want.jpg","Search", "Want"),
-            ("検索", "/images/serch.jpg","Search", "Find"),
-          
+            ("Lunch", "/images/lunch.jpg","Search", "Lunch"),
+            ("Dinner", "/images/dinner.jpg","Search", "Dinner"),
+            ("Sweet＆Cafe", "/images/sweet.jpg","Search", "Sweet"),
+            ("Bar", "/images/Bar.jpg","Search", "Bar")
         };
 }
 
@@ -22,19 +22,6 @@
 <p>
     <a asp-action="Create">Mychelinリスト新規作成</a>
 </p> 
-@foreach (var item in Model)
-{
-    <div class="col-md-2">
-        <!-- 画像を表示＆店舗詳細へジャンプ -->
-        <a href="@Url.Action("Details", "Shoplists", new { id = item.ShoplistId})">
-        <img src="@item.ImagePath" alt="Shoplist image" class="img-fluid" />
-
-        <!-- 店名を表示＆店舗詳細へジャンプ -->
-            <a href="@Url.Action("Details", "Shoplists", new { id = item.ShoplistId })">
-        <p>@Html.DisplayFor(modelItem => item.ShoplistName)</p>
-    </div>
-}
-
 
     <div class="row">
 
@@ -42,10 +29,11 @@
         @for (var i = 0; i < categories.Count; i++)
         {
             <div class="col-md-3 text-center">
-                <a href="@Url.Action(categories[i].Action, categories[i].Controller)">
+          
+                 <a href="@Url.Action(categories[i].Action, categories[i].Controller)">
                     <img src="@categories[i].ImagePath" alt="@categories[i].Category image" class="img-fluid" />
                     <p>@categories[i].Category</p>
-                </a>
+                </a>           
             </div>
 
             <!--4カテゴリ終わったら次のレコード作成-->

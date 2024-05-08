@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Mychelin.Models.Shoplist>
+@{
+    ViewData["Title"] = "Bar特集";
+
+    // 列の要素をカウントする変数
+    int count = 0;
+}
+
+<h1 style="text-align: center;">🌟🌟🌟Bar🌟🌟🌟</h1>
+
+<!--検索フォーム-->
+<form asp-action="Bar">
+    <div class="input-group">
+        <input type="text" name="FindStr" class="form-control me-1"/>
+        <input type="submit" class="btn btn-primary px-4" name="検索"/>
+    </div>
+</form>
+
+<br />
+
+<!-- 画像一覧とリンクの生成 -->
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3 text-center">
+            <a href="@Url.Action("Details", "Shoplists", new { id = item.ShoplistId })">
+                <img src="@item.ImagePath" alt="Shoplist image" class="img-thumbnail" style="width: 200px; height: 200px;" />
+            </a>
+            <a href="@Url.Action("Details", "Shoplists", new { id = item.ShoplistId })">
+                <p>@Html.DisplayFor(modelItem => item.ShoplistName)</p>
+            </a>
+        </div>
+        <!-- 4カテゴリが終わったら次のレコードを作成 -->
+        @if (++count % 4 == 3)
+        {
+            @:</div><div class="row">
+        }
+    }
+</div>
