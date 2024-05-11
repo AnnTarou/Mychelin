@@ -1,0 +1,115 @@
+﻿@model IEnumerable<Mychelin.Models.Shoplist>
+@{
+    ViewData["Title"] = "検索ページ";
+
+    // クイック検索用ボタンのリスト
+    var searchLists = new List<(string Label, string Category)>
+    {
+        ("#おすすめ☆", "おすすめ"),
+        ("#デート💛", "デート"),
+        ("#子連れOK👒", "子連れ"),
+        ("#コスパ最高!!", "コスパ"),
+        ("#女子会🎀", "女子"),
+    };
+
+    // カテゴリジャンプボタン用の配列
+    var categoies = new List<(string ButtonName,string Action)>
+    {
+        ("#お気に入り","Favorite"),
+        ("#気になる👀","Want"),
+        ("#ランチ","Lunch"),
+        ("#ディナー","Dinner"),
+        ("#Sweet&Cafe🍰","Sweet"),
+        ("#Bar🍷","Bar")
+    };
+
+    // 列の要素をカウントする変数
+    int count = 0;
+}
+
+<!--ログアウトボタン表示-->
+<div style="position: absolute; top: 10px; right: 10px;">
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <button type="submit class="btn btn-primary>ログアウト</button>
+    </form>
+</div>
+
+<p>
+    <a asp-Controller="Shoplists" asp-action="Create">Mychelinリスト新規作成</a>
+
+</p> 
+
+
+<h1 style="text-align: center;">🌟🌟🌟検索ページ🌟🌟🌟</h1>
+
+<!--検索フォーム-->
+<form asp-action="Find">
+    <div class="input-group">
+        <input type="text" name="FindStr" class="form-control me-1"/>
+        <input type="submit" value="検索" class="btn btn-primary px-4" name="Click"/>
+    </div>
+</form>
+
+<br />
+
+<!--クイック検索用ボタン-->
+<div style="text-align: center;">
+    @foreach (var category in searchLists)
+    {
+        <form asp-action="FindCategory" method="post" style="display: inline-block;">
+            <input type="hidden" name="category" value="@category.Category" />
+            <input type="submit" value="@category.Label" class="btn btn-primary category-button" />
+        </form>
+    }
+</div>
+
+<br/>
+
+<!--カテゴリにジャンプするボタン-->
+<div style="text-align: center;">
+     @foreach (var category in categoies)
+    {
+        <a href="@Url.Action(@category.Action, "Search")" class="btn btn-primary category-button">@category.ButtonName</a>
+    }
+</div>
+
+<br /><br />
+
+<!-- 画像一覧とリンクの生成 -->
+<div class="row">
+    <!--Modelに何も入っていない場合はコメント表示-->
+    @if (Model != null && !Model.Any())
+    {
+         <div class="col-md-12 text-center">
+        <p style="font-size: 24px;">該当のレストランはありません</p>
+         </div>       
+    }
+    else if (Model != null)
+    {
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 text-center">
+                <a href="@Url.Action("Details", "Shoplists", new { id = item.ShoplistId })">
+                <img src="@item.ImagePath" alt="Shoplist image" class="img-thumbnail" style="width: 200px; height: 200px;" />
+                </a>
+                <a href="@Url.Action("Details", "Shoplists", new { id = item.ShoplistId })">
+                <p>@Html.DisplayFor(modelItem => item.ShoplistName)</p>
+                </a>
+            </div>
+            <!-- 4カテゴリが終わったら次のレコードを作成 -->
+            @if (++count % 4 == 0)
+            {
+                @:</div><div class="row">
+            }
+        }
+    }
+</div>
+
+<!--ボタンの色と間隔指定-->
+<style>
+    .category-button {
+        background-color:#20ceeb;
+        margin-right: 10px;
+    }
+</style>
+
