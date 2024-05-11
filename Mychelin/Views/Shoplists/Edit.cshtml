@@ -4,6 +4,13 @@
     ViewData["Title"] = "店舗編集";
 }
 
+<!--ログアウトボタン表示-->
+<div style="position: absolute; top: 10px; right: 10px;">
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <button type="submit class=" btn btn-primary>ログアウト</button>
+    </form>
+</div>
+
 <h1>編集</h1>
 <hr />
 <div class="row">
@@ -94,7 +101,8 @@
 </div>
 
 <div>
-    <a asp-action="Index">マイページ</a>
+    <a asp-action="Index">マイページ</a> |
+    <a asp-Controller="Search" asp-action="Find">一覧＆検索</a>
 </div>
 
 @section Scripts {

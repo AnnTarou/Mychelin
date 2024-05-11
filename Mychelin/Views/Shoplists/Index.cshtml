@@ -6,32 +6,41 @@
     <!--カテゴリーの画像リスト-->
      var categories = new List<(string Category, string ImagePath,string Controller,string Action)>
         {
-            ("Lunch", "/images/lunch.jpg","Search", "Lunch"),
-            ("Dinner", "/images/dinner.jpg","Search", "Dinner"),
-            ("Sweet＆Cafe", "/images/sweet.jpg","Search", "Cafe"),
-            ("Bar", "/images/Bar.jpg","Search", "Bar"),
-            ("お気に入り", "/images/favorite.jpg","Search", "Favorite"),
-            ("気になる", "/images/want.jpg","Search", "Want"),
-            ("検索", "/images/serch.jpg","Search", "Find"),
-          
+            ("アカウント", "/images/design/Account.jpg","People", "Details"),
+            ("一覧＆検索", "/images/design/search.jpg","Search", "Find"),
+            ("お気に入り", "/images/design/favorite.jpg","Search", "Favorite"),
+            ("気になる", "/images/design/want.jpg","Search", "Want"),
+            ("Lunch", "/images/design/lunch.jpg","Search", "Lunch"),
+            ("Dinner", "/images/design/dinner.jpg","Search", "Dinner"),
+            ("Sweet＆Cafe", "/images/design/sweet.jpg","Search", "Sweet"),
+            ("Bar", "/images/design/Bar.jpg","Search", "Bar")
         };
 }
 
-<h1 style="text-align: center;">🌟🌟🌟Mychelinリスト🌟🌟🌟</h1>
+<!--ログアウトボタン表示-->
+<div style="position: absolute; top: 10px; right: 10px;">
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <button type="submit class="btn btn-primary>ログアウト</button>
+    </form>
+</div>
+
+<h1 style="text-align: center;">🌟🌟🌟@ViewData["UserName"] さんのMychelinリスト🌟🌟🌟</h1>
 
 <p>
     <a asp-action="Create">Mychelinリスト新規作成</a>
 </p> 
+
     <div class="row">
 
     <!--画像とリンクの生成--->
         @for (var i = 0; i < categories.Count; i++)
         {
             <div class="col-md-3 text-center">
-                <a href="@Url.Action(categories[i].Action, categories[i].Controller)">
+          
+                 <a href="@Url.Action(categories[i].Action, categories[i].Controller)">
                     <img src="@categories[i].ImagePath" alt="@categories[i].Category image" class="img-fluid" />
                     <p>@categories[i].Category</p>
-                </a>
+                </a>           
             </div>
 
             <!--4カテゴリ終わったら次のレコード作成-->

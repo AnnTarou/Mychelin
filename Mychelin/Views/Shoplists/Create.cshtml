@@ -1,12 +1,18 @@
 ﻿@model Mychelin.Models.Shoplist
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "マイ店舗登録";
 }
 
-<h1>Create</h1>
+<!--ログアウトボタン表示-->
+<div style="position: absolute; top: 10px; right: 10px;">
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <button type="submit class=" btn btn-primary>ログアウト</button>
+    </form>
+</div>
 
-<h4>Shoplist</h4>
+<h1>マイ店舗登録</h1>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -49,7 +55,7 @@
             <!--評価のセレクトリスト-->
             <div class="form-group">
                 <label asp-for="Star" class="control-label"></label>
-                <p style="font-size: smaller;">0:来店未 1：悪い 2：いまいち 3：普通 4：よい 5：おすすめ</p>
+                <p style="font-size: smaller;">0:来店未 1:悪い 2:いまいち 3:普通 4:よい 5:おすすめ</p>
                 @Html.DropDownListFor(model => model.Star, 
                     new SelectList(Enumerable.Range(0, 6)), 
                     new { @class = "form-control" })
@@ -72,7 +78,7 @@
 
             <!--画像の登録フォーム-->
             <div class="form-group">
-                <label for="ImageFile" class="control-label">Image</label>
+                <label asp-for="ImageFile" class="control-label">画像</label>
                 <input type="file" id="ImageFile" name="ImageFile" class="form-control" />
             </div>
 
@@ -91,7 +97,8 @@
 </div>
 
 <div>
-    <a asp-action="Index">マイページ</a>
+    <a asp-action="Index">マイページ</a> |
+    <a asp-Controller="Search" asp-action="Find">一覧＆検索</a>
 </div>
 
 @section Scripts {

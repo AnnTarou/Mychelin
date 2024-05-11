@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Mychelin.Data;
 namespace Mychelin
 {
@@ -15,7 +14,7 @@ namespace Mychelin
             builder.Services.AddControllersWithViews();
 
             // セッションの追加
-            builder.Services.AddSession();
+            builder.Services.AddSession(options=>options.IdleTimeout=TimeSpan.FromHours(1));
 
             // IHttpContextAccessorをサービスとして登録
             builder.Services.AddHttpContextAccessor();

@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting.Internal;
 using Mychelin.Data;
 using Mychelin.Models;
-using Mychelin.Filter;
 
 namespace Mychelin.Controllers
 {
@@ -58,21 +54,17 @@ namespace Mychelin.Controllers
         public async Task<IActionResult> Index()
         {
             // セッションからユーザーIDを取得
-            var userId = HttpContext.Session.GetInt32("PersonId");
-            
-           // ユーザーIDに関連するShoplistのみを取得
-            var shoplists = _context.Shoplist
-                .Where(s => s.PersonId == userId.Value)
-                .ToList();
-
-            // ログインしているユーザーのShoplistをビューに渡す
-            return View(shoplists);
+            var user = (Person)HttpContext.Items["User"];
+            ViewData["UserName"] = user.PersonName;
+            return View();
         }
 
         // GET: Shoplists/Details
         public async Task<IActionResult> Details(int? id)
         {
-            var userId = HttpContext.Session.GetInt32("PersonId");
+            // セッションからユーザーIDを取得
+            var user = (Person)HttpContext.Items["User"];
+            var userId = user.PersonId;
 
             if (id == null)
             {
@@ -85,7 +77,7 @@ namespace Mychelin.Controllers
                 .FirstOrDefaultAsync(m => m.ShoplistId == id);
 
             // Shoplistが存在しない、またはShoplistのPersonIdがセッションのユーザーIDと一致しない場合はNotFoundを返す
-            if (shoplist == null || shoplist.PersonId != userId.Value)
+            if (shoplist == null || shoplist.PersonId != userId)
             {
                 return NotFound();
             }
@@ -105,15 +97,8 @@ namespace Mychelin.Controllers
         public async Task<IActionResult> Create( Shoplist shoplist)
         {
             // セッションからユーザーIDを取得
-            var userId = HttpContext.Session.GetInt32("PersonId");
-
-            // モデルの状態が有効でない場合はビューを返す 
-            // 値が不正でないのにfalseになる原因究明が必要
-            /*
-            if (!ModelState.IsValid)
-            {
-                return View(shoplist);
-            }*/
+            var user = (Person)HttpContext.Items["User"];
+            var userId = user.PersonId;
 
             /// 画像ファイルのアップロード処理
             // 一意のファイル名を生成
@@ -145,7 +130,7 @@ namespace Mychelin.Controllers
             // もしファイルが選択されていない場合は、デフォルトの画像を指定
             else
             {
-                shoplist.ImagePath = "/images/mychelinlist4.jpg";
+                shoplist.ImagePath = "/images/design/mychelinlist4.jpg";
             }
 
             // セッションからユーザーIDを取得し、それをshoplist.PersonIdに設定
@@ -164,7 +149,9 @@ namespace Mychelin.Controllers
         // GET: Shoplists/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var userId = HttpContext.Session.GetInt32("PersonId");
+            // セッションからユーザーIDを取得
+            var user = (Person)HttpContext.Items["User"];
+            var userId = user.PersonId;
 
             // idがnullの場合はNotFoundを返す
             if (id == null)
@@ -182,7 +169,7 @@ namespace Mychelin.Controllers
             }
 
             // セッションのユーザーIDとShoplistのPersonIdが一致しない場合はNotFoundを返す
-            if (shoplist.PersonId != userId.Value)
+            if (shoplist.PersonId != userId)
             {
                 return NotFound();
             }
@@ -197,20 +184,14 @@ namespace Mychelin.Controllers
         public async Task<IActionResult> Edit(int id, Shoplist shoplist)
         {
             // セッションからユーザーIDを取得
-            var userId = HttpContext.Session.GetInt32("PersonId");
+            var user = (Person)HttpContext.Items["User"];
+            var userId = user.PersonId;
 
             // 選択されたショップリストと一致するデータが存在しない場合はNotFoundを返す
             if (id != shoplist.ShoplistId)
             {
                 return NotFound();
             }
-
-            // モデルの状態が有効でない場合はビューを返す 
-            // 値が不正でないのにfalseになる原因究明が必要
-            /*if (!ModelState.IsValid)
-            {
-                return View(shoplist);
-            }*/
 
             // モデルの状態が有効なとき、DB更新を試みる
             // ここのif分が期待通り動かないのでModelState.IsValidをあえてfalseにしている
@@ -248,7 +229,7 @@ namespace Mychelin.Controllers
                     // もしファイルが選択されていない場合は、デフォルトの画像を指定
                     else
                     {
-                        shoplist.ImagePath = "/images/mychelinlist4.jpg";
+                        shoplist.ImagePath = "/images/design/mychelinlist4.jpg";
                     }
 
                     // セッションからユーザーIDを取得し、それをshoplist.PersonIdに設定
@@ -285,7 +266,9 @@ namespace Mychelin.Controllers
         [SessionCheckFilter]
         public async Task<IActionResult> Delete(int? id)
         {
-            var userId = HttpContext.Session.GetInt32("PersonId");
+            // セッションからユーザーIDを取得
+            var user = (Person)HttpContext.Items["User"];
+            var userId = user.PersonId;
 
             // idがnullの場合はNotFoundを返す
             if (id == null)
@@ -303,7 +286,7 @@ namespace Mychelin.Controllers
             }
 
             // セッションのユーザーIDとShoplistのPersonIdが一致しない場合はNotFoundを返す
-            if (shoplist.PersonId != userId.Value)
+            if (shoplist.PersonId != userId)
             {
                 return NotFound();
             }
