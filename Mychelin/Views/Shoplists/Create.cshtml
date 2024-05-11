@@ -1,0 +1,106 @@
+﻿@model Mychelin.Models.Shoplist
+
+@{
+    ViewData["Title"] = "マイ店舗登録";
+}
+
+<!--ログアウトボタン表示-->
+<div style="position: absolute; top: 10px; right: 10px;">
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <button type="submit class=" btn btn-primary>ログアウト</button>
+    </form>
+</div>
+
+<h1>マイ店舗登録</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+             <!--お店の名前登録フォーム-->
+            <div class="form-group">
+                <label asp-for="ShoplistName" class="control-label"></label>
+               <input asp-for="ShoplistName" class="form-control" />
+            </div>
+
+            <!--来店済みかどうかのセレクトリスト--> 
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                @Html.DropDownListFor(model => model.Status, 
+                             new SelectList(Enum.GetValues(typeof(Mychelin.Controllers.ShoplistsController.Status))),
+                    new { @class = "form-control" })
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <!--カテゴリーのセレクトリスト-->
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                @Html.DropDownListFor(model => model.Category, 
+                    new SelectList(Enum.GetValues(typeof(Mychelin.Controllers.ShoplistsController.Category))), 
+                    new { @class = "form-control" })
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+
+            <!--価格帯のセレクトリスト-->
+            <div class="form-group">
+                 <label asp-for="Class" class="control-label"></label>
+                  @Html.DropDownListFor(model => model.Class,
+                    new SelectList(Enum.GetValues(typeof(Mychelin.Controllers.ShoplistsController.Class))),
+                    new { @class = "form-control" })
+                    <span asp-validation-for="Class" class="text-danger"></span>
+            </div>
+
+            <!--評価のセレクトリスト-->
+            <div class="form-group">
+                <label asp-for="Star" class="control-label"></label>
+                <p style="font-size: smaller;">0:来店未 1:悪い 2:いまいち 3:普通 4:よい 5:おすすめ</p>
+                @Html.DropDownListFor(model => model.Star, 
+                    new SelectList(Enumerable.Range(0, 6)), 
+                    new { @class = "form-control" })
+                <span asp-validation-for="Star" class="text-danger"></span>
+            </div>
+
+            <!--コメントの登録フォーム -->
+            <div class="form-group">
+                <label asp-for="Coment" class="control-label"></label>
+                <textarea asp-for="Coment" class="form-control"></textarea>
+                <span asp-validation-for="Coment" class="text-danger"></span>
+            </div>
+
+            <!--店舗URLの登録フォーム-->
+            <div class="form-group">
+                <label asp-for="Url" class="control-label"></label>
+                <input asp-for="Url" class="form-control" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
+
+            <!--画像の登録フォーム-->
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label">画像</label>
+                <input type="file" id="ImageFile" name="ImageFile" class="form-control" />
+            </div>
+
+            <!--登録日時の登録フォーム-->
+            <div class="form-group">
+                <label asp-for="UpdatedDate" class="control-label"></label>
+                <input asp-for="UpdatedDate" class="form-control" />
+                <span asp-validation-for="UpdatedDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="登録する" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">マイページ</a> |
+    <a asp-Controller="Search" asp-action="Find">一覧＆検索</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
