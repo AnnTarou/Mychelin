@@ -1,89 +1,52 @@
 ﻿@model IEnumerable<Mychelin.Models.Shoplist>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "マイページ";
+
+    <!--カテゴリーの画像リスト-->
+     var categories = new List<(string Category, string ImagePath,string Controller,string Action)>
+        {
+            ("アカウント", "/images/design/Account.jpg","People", "Details"),
+            ("一覧＆検索", "/images/design/search.jpg","Search", "Find"),
+            ("お気に入り", "/images/design/favorite.jpg","Search", "Favorite"),
+            ("気になる", "/images/design/want.jpg","Search", "Want"),
+            ("Lunch", "/images/design/lunch.jpg","Search", "Lunch"),
+            ("Dinner", "/images/design/dinner.jpg","Search", "Dinner"),
+            ("Sweet＆Cafe", "/images/design/sweet.jpg","Search", "Sweet"),
+            ("Bar", "/images/design/Bar.jpg","Search", "Bar")
+        };
 }
 
-<h1>Index</h1>
+<!--ログアウトボタン表示-->
+<div style="position: absolute; top: 10px; right: 10px;">
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <button type="submit" class="btn btn-primary">ログアウト</button>
+    </form>
+</div>
+
+<h1 style="text-align: center;">🌟🌟🌟@ViewData["UserName"] さんのMychelinリスト🌟🌟🌟</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ShoplistName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Class)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Star)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Coment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Url)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagePath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.person)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShoplistName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Class)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Star)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Coment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Url)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.person.Mail)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ShoplistId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ShoplistId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ShoplistId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <a asp-action="Create">Mychelinリスト新規作成</a>
+</p> 
+
+    <div class="row">
+
+    <!--画像とリンクの生成--->
+        @for (var i = 0; i < categories.Count; i++)
+        {
+            <div class="col-md-3 text-center">
+          
+                 <a href="@Url.Action(categories[i].Action, categories[i].Controller)">
+                    <img src="@categories[i].ImagePath" alt="@categories[i].Category image" class="img-fluid" />
+                    <p>@categories[i].Category</p>
+                </a>           
+            </div>
+
+            <!--4カテゴリ終わったら次のレコード作成-->
+            if ((i + 1) % 4 == 0 && i < categories.Count - 1)
+            {
+                @:</div><div class="row">
+            }
+        }
+    </div>

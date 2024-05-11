@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mychelin.Data;
 
@@ -11,9 +12,11 @@ using Mychelin.Data;
 namespace Mychelin.Migrations
 {
     [DbContext(typeof(MychelinContext))]
-    partial class MychelinContextModelSnapshot : ModelSnapshot
+    [Migration("20240505063610_Personadd")]
+    partial class Personadd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,6 +71,7 @@ namespace Mychelin.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Coment")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagePath")
@@ -92,6 +96,7 @@ namespace Mychelin.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ShoplistId");

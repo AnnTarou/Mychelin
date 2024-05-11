@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace Mychelin.Models
@@ -16,14 +15,17 @@ namespace Mychelin.Models
 
         // 行ったことがあるかどうか
         [Display(Name = "行った？")]
+        [Required(ErrorMessage = "必須項目です")]
         public string Status { get; set; }
 
         // カテゴリ
         [Display(Name = "カテゴリ")]
+        [Required(ErrorMessage = "必須項目です")]
         public string Category { get; set; }
 
         // 価格帯
         [Display(Name = "価格帯")]
+        [Required(ErrorMessage = "必須項目です")]
         public string Class { get; set; }
 
         // おすすめ度
@@ -33,12 +35,12 @@ namespace Mychelin.Models
         // 自由コメント
         [Display(Name = "コメント")]
         [DataType(DataType.MultilineText)]
-        public string Coment { get; set; }
+        public string? Coment { get; set; }
 
         // お店のURL
         [Display(Name = "店舗URL")]
         [DataType(DataType.Url)]
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
         // 画像イメージのプロパティ
         [Display(Name = "画像")]

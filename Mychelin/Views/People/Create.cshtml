@@ -1,41 +1,50 @@
 ﻿@model Mychelin.Models.Person
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "新規会員登録";
 }
 
-<h1>Create</h1>
+<h1 style="text-align: center;">新規会員登録</h1>
 
-<h4>Person</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
+
+            <!--ニックネーム入力フォーム-->
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PersonName" class="control-label"></label>
                 <input asp-for="PersonName" class="form-control" />
                 <span asp-validation-for="PersonName" class="text-danger"></span>
             </div>
+
+            <!--メールアドレス入力フォーム-->
             <div class="form-group">
                 <label asp-for="Mail" class="control-label"></label>
                 <input asp-for="Mail" class="form-control" />
                 <span asp-validation-for="Mail" class="text-danger"></span>
             </div>
+
+            <!--パスワード入力フォーム-->
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
+            <br/>
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="新規登録" class="btn btn-primary" />
             </div>
+
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Home" asp-action="Index">ホームに戻る</a>
 </div>
 
 @section Scripts {

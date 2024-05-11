@@ -1,13 +1,19 @@
 ﻿@model Mychelin.Models.Person
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "アカウント情報";
 }
 
-<h1>Details</h1>
+<!--ログアウトボタン表示-->
+<div style="position: absolute; top: 10px; right: 10px;">
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <button type="submit" class="btn btn-primary">ログアウト</button>
+    </form>
+</div>
+
+<h1 style="text-align: center;">アカウント情報</h1>
 
 <div>
-    <h4>Person</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -26,11 +32,12 @@
             @Html.DisplayNameFor(model => model.Password)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
+            ※セキュリティ保護のため、表示されません
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.PersonId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.PersonId">編集</a> |
+    <a asp-action="Delete" asp-route-id="@Model?.PersonId">アカウント削除</a> |
+    <a asp-Controller="Shoplists" asp-action="Index">マイページ</a>
 </div>

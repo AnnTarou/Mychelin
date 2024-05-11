@@ -19,6 +19,9 @@ namespace Mychelin.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        // ハッシュ化時のソルトを保存する
+        public string Salt { get; set; }
+
         // Shoplistをリストで保持
         public List<Shoplist> Shoplists { get; set; }
     }

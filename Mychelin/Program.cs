@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Mychelin.Data;
 namespace Mychelin
 {
@@ -13,6 +12,12 @@ namespace Mychelin
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // セッションの追加
+            builder.Services.AddSession(options=>options.IdleTimeout=TimeSpan.FromHours(1));
+
+            // IHttpContextAccessorをサービスとして登録
+            builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 
@@ -34,6 +39,9 @@ namespace Mychelin
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            // セッションの追加
+            app.UseSession();
 
             app.Run();
         }
