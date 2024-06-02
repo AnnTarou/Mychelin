@@ -30,6 +30,13 @@ namespace Mychelin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Person person)
         {
+            // すでにDBに同一のメールアドレスが存在するとき、エラー
+            if (await _context.Person.AnyAsync(u => u.Mail == person.Mail))
+            {
+                ModelState.AddModelError("", "このメールアドレスはすでに存在しています。別のメールアドレスを入力してください。");
+                return View(person);
+            }
+
             // ModelState.IsValidが通常はtrueのときの処理
             // 現在false（原因不明）となるためこの実装
             if (!ModelState.IsValid)
